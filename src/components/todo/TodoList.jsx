@@ -5,19 +5,17 @@ import { CiEdit } from "react-icons/ci";
 import { BsCheckLg } from "react-icons/bs";
 import { RiRefreshLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
+import { todoActions } from "../../store/reducer/todoReducer/todoSlice";
 
 const TodoList = ({ title, item }) => {
-
   const [edit, setEdit] = useState(false);
   const [editValue, setEditValue] = useState("");
 
+  console.log(item);
   const dispatch = useDispatch();
-  const deleteHandler = () => {
-    dispatch({
-      type: "DELETE",
-      payload: item.id,
-    });
 
+  const deleteHandler = () => {
+    dispatch(todoActions.deleteTodo(item.id));
   };
   const editHandler = () => {
     setEdit(true);
@@ -29,31 +27,27 @@ const TodoList = ({ title, item }) => {
   };
 
   const saveButton = () => {
-    dispatch({
-      type: "EDIT",
-      id: item.id,
-      payload: editValue,
-    })
+    dispatch(todoActions.editTodo({ id: item.id, editValue }));
     setEdit(false);
   };
 
   const complateHandler = () => {
-    dispatch({
-      type: "COMPLATED",
-      payload: item.id,
-    });
+    dispatch(todoActions.completedTodo(item.id));
   };
   return (
     <Container>
       {edit ? (
         <>
           <Input type="text" value={editValue} onChange={saveChangeHandler} />
-          <EditSave onClick={saveButton}/>
+          <EditSave onClick={saveButton} />
         </>
       ) : (
         <>
           <TitleContainer>
-            <CheckedBtn className={item.complated && "color"} />
+            <CheckedBtn
+              onClick={complateHandler}
+              className={item.complated && "color"}
+            />
             <Title
               onClick={complateHandler}
               className={item.complated && "through"}
@@ -62,8 +56,8 @@ const TodoList = ({ title, item }) => {
             </Title>
           </TitleContainer>
           <BtnContainer>
-          <EditBtn onClick={editHandler}/>
-          <DeleteBtn onClick={deleteHandler} />
+            <EditBtn onClick={editHandler} />
+            <DeleteBtn onClick={deleteHandler} />
           </BtnContainer>
         </>
       )}

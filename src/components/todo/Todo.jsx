@@ -1,27 +1,20 @@
-import { useSelector } from "react-redux"
-import styled from "styled-components"
-import TodoList from "./TodoList"
+import { useSelector } from "react-redux";
+import styled from "styled-components";
+import TodoList from "./TodoList";
 
 const Todo = () => {
-  const todo = useSelector((state)=>state.todo)
+  const todos = useSelector((state) => state.todo.todo);
   return (
     <UlList>
-        {todo.map((item)=>{
-            return(
-            <TodoList
-            key={item.id}
-            title={item.title} 
-            item={item} 
-            />
-            )
-           
-        })}
+      {todos.map((item) => {
+        return <TodoList key={item.id} title={item.title} item={item} />;
+      })}
     </UlList>
-  )
-}
+  );
+};
 
-export default Todo
+export default Todo;
 
 const UlList = styled.ul`
   min-height: 50px;
-`
+`;

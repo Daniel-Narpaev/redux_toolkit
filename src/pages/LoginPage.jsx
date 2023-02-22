@@ -4,8 +4,8 @@ import { useState } from "react";
 import Button from "../components/UI/button/Button";
 import Input from "../components/UI/input/Input";
 import styled from "styled-components";
-import { authActionType } from "../store/reducer/authReducer/authReducer";
-import { useNavigate } from "react-router-dom";
+  import { useNavigate } from "react-router-dom";
+import { authActions } from "../store/reducer/authReducer/authSlice";
 
 const LoginPage = () => {
   const dispatch = useDispatch();
@@ -28,11 +28,8 @@ const LoginPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    if (formState.email.includes("@") && formState.password === 1234) {
-      dispatch({
-        type: authActionType.LOG_IN,
-        payload: formState.email,
-      });
+    if (formState.email.includes("@") && formState.password === "1234") {
+      dispatch(authActions.login({email: formState.email, password:formState.password}));
     }
     navigate("/todo");
   };
